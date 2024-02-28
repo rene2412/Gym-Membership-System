@@ -35,15 +35,39 @@ public:
      void AddPerson(const Person &person) {
 	   database[person.GetMemberShipId()] = person;
 	} 
+
      void PrintDataBase() const {
 	    for (const auto& pair : database) {
 	     std::cout << "Membership ID: " << pair.first << " | Name: " << pair.second.GetName() << 
 	     " | Age: " << pair.second.GetAge() << " | Phone Number: " << pair.second.GetPhoneNumber() << 
 	     " | Account Status: " << (pair.second.GetAccount() ? "Active" : "Inactive") << std::endl;
-	     }  
+	     }
+	    if (database.empty()) {
+	    std::cout << "Database Empty\n";
+	   }
 	}
-    void remove() {} 	
-    void search() {}
+
+    void remove(const std::string &key) {
+	auto iter = database.find(key);
+	if (iter != database.end()) {
+	  database.erase(iter); 
+	}
+	else std::cout << "Person not found!" << std::endl; 
+    } 	
+    
+    void search(const std::string &key) {
+	auto iter = database.find(key);
+	if (iter != database.end()) {
+	const Person &found = iter->second;
+	     std::cout << "Membership ID: " << found.GetMemberShipId() << " | Name: " 
+	     << found.GetName() << " | Age: " << found.GetAge() <<
+	     " | Phone Number: " << found.GetPhoneNumber() << " | Account Status: "
+	     << (found.GetAccount() ? "Active" : "Inactive") << std::endl;
+	}
+	else {
+		std::cout << "Error: Person Not Found\n";
+	}
+    }
 
     void save_file(const std::string &filename) const {
 	std::ofstream file(filename);
@@ -68,9 +92,9 @@ public:
 		    int age = 0;
 		    bool account;
 		   // if reading in the data is valid
-		    if(std::getline(srs, id, " : ") and
-		    std::getline(srs, name, " : ") and
-		    (srs >> age) and (srs.ignore(), std::getline(srs, phone_number, " : "))
+		    if(std::getline(srs, id, ':') and
+		    std::getline(srs, name, ':') and
+		    (srs >> age) and (srs.ignore(), std::getline(srs, phone_number, ':'))
 		    and (srs >> account)) {
 		    // then create objects of each person
 		    Person newPerson(id, name, age, phone_number, account);
@@ -82,7 +106,6 @@ public:
 	    }
 	    else std::cout << "Error opening file" << std::endl;
 	}
-
 
 
 };
