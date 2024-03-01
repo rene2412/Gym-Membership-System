@@ -17,7 +17,7 @@ system.load_file("database.txt");
 int choice = 0;
 while (true) {
 cout << "What do you want to today?\n";
-cout << "1) Add a person\n2) Remove a person\n3) Search for a Person\n4)Edit Information\n5) Show All\n6) Quit\n";
+cout << "1) Add a person\n2) Remove a person\n3) Search for a Person\n4) Edit Information\n5) Show All\n6) Quit\n";
 cin >> choice;
 cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 if (!cin or (choice < 1 or choice > 6)) {
@@ -52,8 +52,8 @@ system.AddPerson(newPerson);
 system.PrintDataBase();
 system.save_file("database.txt");
 }
-if (choice == 2) {	
-//todo
+
+if (choice == 2) {
 string key;
 cout << "Enter an ID to remove a person" << endl;
 getline(cin, key);
@@ -71,17 +71,16 @@ string key;
 cout << "Enter an ID to search for a person" << endl;
 getline(cin, key);
 bool find = system.search(key);
-if (find == false) continue;
+if (find == false) cout << "Person not found!" << continue;
 int choice = 0;
+
 cout << "What do you want to edit?" << endl;
-//edit this prompt
-cout << "1) Add a person\n2) Remove a person\n3) Search for a Person\n4)Edit Information\n5) Show All\n6) Quit\n";
+cout << "1) Name\n 2) Age\n 3) Phone Number\n";
 cin >> choice;
-if (!cin or (choice < 1 or choice > 6)) {
+if (!cin or (choice < 1 or choice > 3)) {
 	cout << "BAD INPUT" << endl;
 	continue;
 }
-
 
 }
 
