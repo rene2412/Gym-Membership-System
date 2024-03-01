@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <string>
 #include <unordered_map>
 
 class Person {
@@ -89,26 +90,25 @@ public:
 	    std::ifstream file(filename);
 	    if (file.is_open()) {
 		std::string line;
-		while(true) {
-		   if (!file) break;
+		while(std::getline(file, line)) {
+		   //if (!file) break;
 		    std::stringstream srs(line);
-		    std::string id, name, phone_number, account_str;
-		    int age = 0;
+		    std::string id, name, age, phone_number, account_str;
+		    int new_age = 0;
 		    bool account;
-		    std::getline(srs, id, '|');
-		    std::getline(srs, name, '|');
-		    std::getline(srs, age, '|');
-		    std::getline(srs, phone_number, '|');
-		    std::getline(srs, account_str, '|');
-		    database[pair.first] = id;
-		    database[pair.second] = name;
-		    database[pair.second] = stoi(age);
-		    databse[pair.second] = phone_number;
-		    database[pair.second] = account_str;
+		    if (std::getline(srs, id, '|') and
+		    std::getline(srs, name, '|') and
+		    std::getline(srs, age, '|') and
+		    std::getline(srs, phone_number, '|') and
+		    std::getline(srs, account_str, ' ')) {
+		    new_age = std::stoi(age);
+		    Person newPerson(id, name, new_age, phone_number, (account_str == "Active"));
+		    database[id] = newPerson;
 		}
-
+		else std::cout << "Error Paring\n";
+	       }
 	    }
-	    else std::cout << "Error parsing data?\n" << std::endl;
+	        else std::cout << "Error opening" << std::endl;
   }
 
 
