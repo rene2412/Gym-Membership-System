@@ -31,10 +31,6 @@ class System : public Person {
 private: 
      std::unordered_map<std::string, Person> database; // will hold the entire gym database
 public:
-     //key
-     void AddPerson(const Person &person) {
-	   database[person.GetMemberShipId()] = person;
-	} 
 
      void PrintDataBase() const {
 	    for (const auto& pair : database) {
@@ -46,6 +42,10 @@ public:
 	    std::cout << "Database Empty\n";
 	   }
 	}
+     //key
+     void AddPerson(const Person &person) {
+	   database[person.GetMemberShipId()] = person;
+	} 
 
     void remove(const std::string &key) {
 	auto iter = database.find(key);
@@ -55,7 +55,7 @@ public:
 	else std::cout << "Person not found!" << std::endl; 
     } 	
     
-    void search(const std::string &key) {
+    bool search(const std::string &key) {
 	auto iter = database.find(key);
 	if (iter != database.end()) {
 	const Person &found = iter->second;
@@ -63,20 +63,23 @@ public:
 	     << found.GetName() << " | Age: " << found.GetAge() <<
 	     " | Phone Number: " << found.GetPhoneNumber() << " | Account Status: "
 	     << (found.GetAccount() ? "Active" : "Inactive") << std::endl;
+		return true;
 	}
 	else {
 		std::cout << "Error: Person Not Found\n";
+		return false;
 	}
     }
+   
 
     void save_file(const std::string &filename) const {
-	std::ofstream file(filename);
+	std::ofstream file(filename, std::ios_base::app);
 	if (file.is_open()) {
 	    for (const auto& pair : database) {
 		file << "Membership ID: " << pair.first << " | Name: " <<
 		pair.second.GetName() << " | Age: " << pair.second.GetAge() << 
 		" | Phone Number: " << pair.second.GetPhoneNumber() << " | Account Status: "
-		<< (pair.second.GetAccount() ? "Active" : "Inactive");
+		<< (pair.second.GetAccount() ? "Active" : "Inactive") << std::endl;
 	    }
 	}
 	else std::cout << "Error Opening File" << std::endl;
@@ -86,26 +89,36 @@ public:
 	    std::ifstream file(filename);
 	    if (file.is_open()) {
 		std::string line;
-		while(std::getline(file, line)) {
+		while(file) {
+		   if (!file) break;
 		    std::stringstream srs(line);
-		    std::string id, name, phone_number;
+		    std::string id, name, phone_number, account_str;
 		    int age = 0;
 		    bool account;
-		   // if reading in the data is valid
-		    if(std::getline(srs, id, ':') and
-		    std::getline(srs, name, ':') and
-		    (srs >> age) and (srs.ignore(), std::getline(srs, phone_number, ':'))
-		    and (srs >> account)) {
-		    // then create objects of each person
-		    Person newPerson(id, name, age, phone_number, account);
-		    database[id] = newPerson;
-		}
-		else std::cout << "Error Parsing Data" << std::endl;
-	    }
-	    file.close();
-	    }
-	    else std::cout << "Error opening file" << std::endl;
-	}
+		    std::getline(srs, id, '|');
+		    std::cout << "ID: " << id << std::endl;
+		    std::getline(srs, name, '|');
+		    std::cout << "Name: " << name << std::endl;
+		    (srs.ignore(), age, '|');
+		    std::cout << "Age: " << age << std::endl;
+		    std::getline(srs, phone_number, '|');
+		    std::cout << "Phone Number: " << phone_number << std::endl;
+		    std::getline(srs, account_str, '|');
+		    std::cout << "Account Status: " << account_str << std::endl;
+		      }
+
+		      // then create objects of each person
+		//account = (account_str.find("Active") != std::string::npos);
+
+		  ///  Person newPerson(id, name, age, phone_number, account);
+		    //database[id] = newPerson;
+		    //std::cout << "SUCCESS\n";
+		}   
+		//else std::cout << "Error Parsing Data" << std::endl;
+	       }
+	
+	  //  else std::cout << "Error opening file" << std::endl;
+	
 
 
 };
