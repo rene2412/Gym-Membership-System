@@ -85,40 +85,37 @@ public:
 	else std::cout << "Error Opening File" << std::endl;
 	}
     
-    void load_file(const std::string &filename) {
+  void load_file(const std::string &filename) {
 	    std::ifstream file(filename);
 	    if (file.is_open()) {
 		std::string line;
-		while(file) {
+		while(true) {
 		   if (!file) break;
 		    std::stringstream srs(line);
 		    std::string id, name, phone_number, account_str;
 		    int age = 0;
 		    bool account;
 		    std::getline(srs, id, '|');
-		    std::cout << "ID: " << id << std::endl;
 		    std::getline(srs, name, '|');
-		    std::cout << "Name: " << name << std::endl;
-		    (srs.ignore(), age, '|');
-		    std::cout << "Age: " << age << std::endl;
+		    std::getline(srs, age, '|');
 		    std::getline(srs, phone_number, '|');
-		    std::cout << "Phone Number: " << phone_number << std::endl;
 		    std::getline(srs, account_str, '|');
-		    std::cout << "Account Status: " << account_str << std::endl;
-		      }
+		    database[pair.first] = id;
+		    database[pair.second] = name;
+		    database[pair.second] = stoi(age);
+		    databse[pair.second] = phone_number;
+		    database[pair.second] = account_str;
+		}
 
-		      // then create objects of each person
+	    }
+	    else std::cout << "Error parsing data?\n" << std::endl;
+  }
+
+
+
 		//account = (account_str.find("Active") != std::string::npos);
 
 		  ///  Person newPerson(id, name, age, phone_number, account);
 		    //database[id] = newPerson;
 		    //std::cout << "SUCCESS\n";
-		}   
-		//else std::cout << "Error Parsing Data" << std::endl;
-	       }
-	
-	  //  else std::cout << "Error opening file" << std::endl;
-	
-
-
 };

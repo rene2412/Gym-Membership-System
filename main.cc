@@ -1,5 +1,6 @@
 #include <iostream>
 #include "membership.h"
+#include <limits>
 using namespace std;
 
 // todo
@@ -16,10 +17,10 @@ system.load_file("database.txt");
 int choice = 0;
 while (true) {
 cout << "What do you want to today?\n";
-cout << "1) Add a person\n2) Remove a person\n3) Search for a Person\n4) Show All\n5) Quit\n";
+cout << "1) Add a person\n2) Remove a person\n3) Search for a Person\n4)Edit Information\n5) Show All\n6) Quit\n";
 cin >> choice;
-cin.ignore();
-if (!cin or (choice < 1 or choice > 5)) {
+cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+if (!cin or (choice < 1 or choice > 6)) {
 	cout << "BAD INPUT" << endl;
 	exit(1);
  	}
@@ -66,9 +67,28 @@ getline(cin, key);
 system.search(key);
 }
 if (choice == 4) {
+string key;
+cout << "Enter an ID to search for a person" << endl;
+getline(cin, key);
+bool find = system.search(key);
+if (find == false) continue;
+int choice = 0;
+cout << "What do you want to edit?" << endl;
+//edit this prompt
+cout << "1) Add a person\n2) Remove a person\n3) Search for a Person\n4)Edit Information\n5) Show All\n6) Quit\n";
+cin >> choice;
+if (!cin or (choice < 1 or choice > 6)) {
+	cout << "BAD INPUT" << endl;
+	continue;
+}
+
+
+}
+
+if (choice == 5) {
 system.PrintDataBase();
 }
-if (choice == 5) {
+if (choice == 6) {
 system.save_file("database.txt");
 break;
 }
