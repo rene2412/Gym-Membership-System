@@ -1,6 +1,8 @@
 #include <iostream>
 #include "membership.h"
 #include <limits>
+#include <algorithm>
+#include <cctype>
 using namespace std;
 
 // todo
@@ -49,8 +51,9 @@ cin.ignore();
 
 Person newPerson(id, name, age, phone_number, account);
 system.AddPerson(newPerson);
-system.PrintDataBase();
-system.save_file("database.txt");
+cout << "Id: " << id << endl;
+//system.PrintDataBase();
+system.save_file("database.txt", newPerson);
 }
 
 if (choice == 2) {
@@ -58,7 +61,7 @@ string key;
 cout << "Enter an ID to remove a person" << endl;
 getline(cin, key);
 system.remove(key);
-system.save_file("database.txt");
+//system.save_file("database.txt");
 }
 if (choice == 3) {
 string key;
@@ -71,7 +74,7 @@ string key;
 cout << "Enter an ID to search for a person" << endl;
 getline(cin, key);
 bool find = system.search(key);
-if (find == false) cout << "Person not found!" << continue;
+if (find == false) cout << "Person not found!\n"; continue; 
 int choice = 0;
 
 cout << "What do you want to edit?" << endl;
@@ -88,7 +91,7 @@ if (choice == 5) {
 system.PrintDataBase();
 }
 if (choice == 6) {
-system.save_file("database.txt");
+//system.save_file("database.txt");
 break;
 }
 

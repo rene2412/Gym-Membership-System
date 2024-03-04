@@ -58,8 +58,9 @@ public:
     bool search(const std::string &key) {
 	auto iter = database.find(key);
 	if (iter != database.end()) {
+	const std::string &foundId = iter->first;
 	const Person &found = iter->second;
-	     std::cout << "Membership ID: " << found.GetMemberShipId() << " | Name: " 
+	     std::cout << "Membership ID: " << foundId << " | Name: " 
 	     << found.GetName() << " | Age: " << found.GetAge() <<
 	     " | Phone Number: " << found.GetPhoneNumber() << " | Account Status: "
 	     << (found.GetAccount() ? "Active" : "Inactive") << std::endl;
@@ -72,25 +73,37 @@ public:
     }
    
 
-    void save_file(const std::string &filename) const {
-	std::ofstream file(filename, std::ios_base::app);
-	if (file.is_open()) {
-	    for (const auto& pair : database) {
-		file << pair.first << " | " <<pair.second.GetName() <<
-		" | " << pair.second.GetAge() << " | " << pair.second.GetPhoneNumber() << " | " << 
-		 (pair.second.GetAccount() ? "Active" : "Inactive") << std::endl;
+    void save_file(const std::string &filename, const Person &newPerson) const {
+	    
+	    std::ifstream checkFile(filename);
+	    std::string line;
+	    bool isDuplicate = false;
+	    getline(checkFile, line); //throw away first header
+	    while(std::getline(checkFile, line)) {
+     		 if (line.find(newPerson.GetMemberShipId()) != std::string::npos) {
+		    isDuplicate = true;
+		    break;
+	        }
 	    }
-	}
+		checkFile.close();
+	if (!isDuplicate) {
+	std::ofstream file(filename, std::ios::app);
+	if (file.is_open()) {
+		file << newPerson.GetMemberShipId() << " | " << newPerson.GetName() <<
+		" | " << newPerson.GetAge() << " | " << newPerson.GetPhoneNumber() << " | " << 
+		 (newPerson.GetAccount() ? "Active" : "Inactive") << std::endl;
+	    }
 	else std::cout << "Error Opening File" << std::endl;
 	}
-    
-  void load_file(const std::string &filename) {
+	else std::cout << "Person already exists in file" << std::endl;
+    }
+  
+    void load_file(const std::string &filename) {
 	    std::ifstream file(filename);
 	    if (file.is_open()) {
 		std::string line;
 		getline(file, line); //throw away file header
 		while(std::getline(file, line)) {
-		   //if (!file) break;
 		    std::stringstream srs(line);
 		    std::string id, name, age, phone_number, account_str;
 		    int new_age = 0;
@@ -99,7 +112,7 @@ public:
 		    std::getline(srs, name, '|') and
 		    std::getline(srs, age, '|') and
 		    std::getline(srs, phone_number, '|') and
-		    std::getline(srs, account_str)) {
+		    std::getline(srs, account_str, '\n')) {
     
 		    try {
 			new_age = std::stoi(age);
@@ -115,5 +128,6 @@ public:
 	    }
 	        else std::cout << "Error opening" << std::endl;
   }
+
 
 };
