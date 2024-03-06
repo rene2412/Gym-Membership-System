@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -56,9 +57,24 @@ public:
     } 	
     
     bool search(const std::string &key) {
-	auto iter = database.find(key);
-	if (iter != database.end()) {
-	const std::string &foundId = iter->first;
+	//auto iter = database.find(key);
+	//if (iter != database.end()) {
+	//const std::string &foundId = iter->first;	
+	for (const auto &pair : database) {
+	    std::cout << "Printing Id's: " << pair.first << std::endl;
+	}
+
+	for (const auto &pair : database) {
+	     std::cout << "Comparing: " << key << " with " << pair.first << std::endl;
+	     if (pair.first == key) {
+	     std::cout << "reaching here?" << std::endl;
+		std::cout << "Person Found!" << std::endl;
+		break;
+		return true;
+	     }
+	}	
+
+	/*
 	const Person &found = iter->second;
 	     std::cout << "Membership ID: " << foundId << " | Name: " 
 	     << found.GetName() << " | Age: " << found.GetAge() <<
@@ -66,10 +82,9 @@ public:
 	     << (found.GetAccount() ? "Active" : "Inactive") << std::endl;
 		return true;
 	}
-	else {
+	*/
 		std::cout << "Error: Person Not Found\n";
 		return false;
-	}
     }
    
 
