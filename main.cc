@@ -16,10 +16,11 @@ int main() {
 System system;
 
 system.load_file("database.txt");
+
 int choice = 0;
 while (true) {
 cout << "What do you want to today?\n";
-cout << "1) Add a person\n2) Remove a person\n3) Search for a Person\n4) Edit Information\n5) Show All\n6) Quit\n";
+cout << "1) Add a person\n2) Remove a person\n3) Search for a Person\n4) Edit Information\n5) Show All In Database\n6) Quit\n";
 cin >> choice;
 cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 if (!cin or (choice < 1 or choice > 6)) {
@@ -44,16 +45,12 @@ cout << "Enter a Phone-Number" << endl;
 string phone_number;
 getline(cin, phone_number);
 
-bool account = false;
-cout << "Account status is active!" << endl;
-account = true;
-cin.ignore();
-
-Person newPerson(id, name, age, phone_number, account);
+Person newPerson(id, name, age, phone_number);
 system.AddPerson(newPerson);
-cout << "Id: " << id << endl;
-//system.PrintDataBase();
 system.save_file("database.txt", newPerson);
+//for (const auto& pair : database) {
+	
+
 }
 
 if (choice == 2) {
@@ -63,19 +60,22 @@ getline(cin, key);
 system.remove(key);
 //system.save_file("database.txt");
 }
+
 if (choice == 3) {
 string key;
 cout << "Enter an ID to search for a person" << endl;
 getline(cin, key);
 system.search(key);
 }
+	
+
 if (choice == 4) {
 string key;
 cout << "Enter an ID to search for a person" << endl;
 getline(cin, key);
-bool find = system.search(key);
-if (find == false) cout << "Person not found!\n"; continue; 
-int choice = 0;
+//bool find = system.search(key);
+//if (find == false) cout << "Person not found!\n"; continue; 
+//int choice = 0;
 
 cout << "What do you want to edit?" << endl;
 cout << "1) Name\n 2) Age\n 3) Phone Number\n";
