@@ -3,7 +3,8 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-#include <unordered_map>
+#include <vector>
+#include <algorithm>
 class Person {
 private:
    std::string membership_id; // will be the key
@@ -27,14 +28,15 @@ public:
  
 class System : public Person {
 private: 
-     std::unordered_map<std::string, Person> database; // will hold the entire gym database
+     std::vector<std::pair<std::string, Person>> database; // will hold the entire gym database
 public:
-     std::unordered_map<std::string, Person> GetDatabase() const { return database; }
+     const std::vector<std::pair<std::string, Person>> &GetDatabase() const { return database; }
 
      void PrintDataBase() const {
-	    for (const auto& pair : GetDatabase()) {
-	     std::cout << "Membership ID: " << pair.first << " | Name: " << pair.second.GetName() << 
-	     " | Age: " << pair.second.GetAge() << " | Phone Number: " << pair.second.GetPhoneNumber() << std::endl;
+	    for (const auto& data : GetDatabase()) {
+		 const auto &pair = data.second; 
+	     std::cout << "Membership ID: " << data.first << " | Name: " << pair.GetName() << 
+	     " | Age: " << pair.GetAge() << " | Phone Number: " << pair.GetPhoneNumber() << std::endl;
 	     }
 	    if (database.empty()) {
 	    std::cout << "Database Empty\n";
@@ -42,20 +44,21 @@ public:
 	}
      //key
      void AddPerson(const Person &person) {
-	   database[person.GetMemberShipId()] = person;
+	   database.push_back({person.GetMemberShipId(), person});
 	} 
+void remove(const std::string &key) {
+    auto iter = std::find_if(database.begin(), database.end(),
+          [key](const auto &entry) { return entry.first == key; });
 
-    void remove(const std::string &key) {
-	auto iter = database.find(key);
 	if (iter != database.end()) {
 	  database.erase(iter); 
+	   std::cout << "Person erased" << std::endl;
 	}
 	else std::cout << "Person not found!" << std::endl; 
-    } 	
-    
+    } 
+
     bool search(const std::string &key) {
-	for (const auto &pair : database) {
-	     std::cout << "Comparing: " << key << " with " << pair.first << std::endl;
+	for (const auto &pair : GetDatabase()) {
 	     if (pair.first == key) {
 		std::cout << "Person Found!" << std::endl;
 		return true;
@@ -107,11 +110,10 @@ public:
   		  	continue; 
 				}
 		    Person newPerson(id, name, new_age, phone_number);
-		    database[id] = newPerson;
+		    database.push_back({id, newPerson});
 		     }
 	        }
 	        else std::cout << "Error opening" << std::endl;
   }
-
 
 };

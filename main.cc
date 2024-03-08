@@ -3,15 +3,18 @@
 #include <limits>
 #include <algorithm>
 #include <cctype>
+#include <regex>
 using namespace std;
 
-// todo
-/*
-string create_key() {
-system.database[key.GetMemberShipId()] = person;
-
+bool isValidPhoneNumber(const std::string &phoneNumber) {
+      regex pattern(R"(\d{3}-\d{3}-\d{4})");
+      return regex_match(phoneNumber, pattern);
+} 
+bool isValidIDFormat(const std::string &id) {
+     regex pattern(R"(\d{2}[A-Za-z]{2})");
+     return regex_match(id, pattern);
 }
-*/
+
 int main() {
 System system;
 
@@ -29,8 +32,15 @@ if (!cin or (choice < 1 or choice > 6)) {
  	}
 if (choice == 1) {
 string id;
+bool check = false;
 cout << "Enter an ID: " << endl;
 getline(cin, id);
+if (isValidIDFormat(id)) {
+     check = true;
+} else {
+  cout << "Error: Invalid ID" << endl; 
+  continue;
+}
 
 string name;
 cout << "Enter a Name: " << endl;
@@ -39,17 +49,29 @@ getline(cin, name);
 int age = 0;
 cout << "Enter an Age: " << endl;
 cin >> age;
+if (!cin or age < 5 or age > 120) {
+     cout << "Invalid Age!" << endl;
+     continue;
+}
 cin.ignore();
 
+bool valid = false;
+string phone_number;
+while (!valid) {
 cout << "Enter a Phone-Number" << endl;
 string phone_number;
 getline(cin, phone_number);
+ if (isValidPhoneNumber(phone_number)) {
+	valid = true;
+ } else {  
+   std::cout << "Error: Invalid phone number format. Please use the format XXX-XXX-XXXX." << std::endl;
+  }
+}
 
 Person newPerson(id, name, age, phone_number);
 system.AddPerson(newPerson);
+cout << name << " has been successfully added" << endl;
 system.save_file("database.txt", newPerson);
-//for (const auto& pair : database) {
-	
 
 }
 
