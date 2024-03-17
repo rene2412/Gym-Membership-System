@@ -6,7 +6,6 @@
 #include <regex>
 using namespace std;
 
-System s;
 
 bool isValidPhoneNumber(const std::string &phoneNumber) {
       regex pattern(R"(\d{3}-\d{3}-\d{4})");
@@ -16,16 +15,15 @@ bool isValidIDFormat(const std::string &id) {
      regex pattern(R"(\d{2}[A-Za-z]{2})");
      return regex_match(id, pattern);
 }
-bool CheckID_Duplicate(const std::string key) {
-	for (const auto& pair : s.GetDatabase()) {
-		cout << "Keys already in use: " << pair.first << " compared to wanted key: " << key << endl;
+bool CheckID_Duplicate(const std::string key, const System& system) {
+	for (const auto& pair : system.GetDatabase()) {
 		if (pair.first == key)  {
-		    cout << "ID is already taken, use a different one" << endl;
-		    //continue;
+		    return true;
 		}
 	}
-	//cout << "ID good to go" << endl;
+	return false;
 }
+
 
 int main() {
 
@@ -53,7 +51,13 @@ if (isValidIDFormat(id)) {
   cout << "Error: Invalid ID" << endl; 
   continue;
 }
-CheckID_Duplicate(id);
+if (!CheckID_Duplicate(id, system)) {
+    check = true;
+} else { 
+cout << "Error: ID is already in use. Pick another" << endl; 
+continue; 
+}
+
 string name;
 cout << "Enter a Name: " << endl;
 getline(cin, name);
@@ -76,14 +80,14 @@ getline(cin, phone_number);
 	valid = true;
  } else {  
    std::cout << "Error: Invalid phone number format. Please use the format XXX-XXX-XXXX." << std::endl;
-  }
+  continue;
+ }
 }
 
 Person newPerson(id, name, age, phone_number);
 system.AddPerson(newPerson);
-cout << name << " has been successfully added" << endl;
 system.save_file("database.txt", newPerson);
-
+  cout << name << " has been successfully added" << endl;
 }
 
 if (choice == 2) {
@@ -91,7 +95,6 @@ string key;
 cout << "Enter an ID to remove a person" << endl;
 getline(cin, key);
 system.remove(key);
-//system.save_file("database.txt");
 }
 
 if (choice == 3) {

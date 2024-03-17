@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include <fstream>
+#include <fstream> 
 #include <sstream>
 #include <string>
 #include <vector>
@@ -30,9 +30,9 @@ class System : public Person {
 private: 
      std::vector<std::pair<std::string, Person>> database; // will hold the entire gym database
 public:
-     const std::vector<std::pair<std::string, Person>> &GetDatabase() const { return database; }
+  const std::vector<std::pair<std::string, Person>> &GetDatabase()  const { return database; }
 
-     void PrintDataBase() const {
+     void PrintDataBase()  {
 	    for (const auto& data : GetDatabase()) {
 		 const auto &pair = data.second; 
 	     std::cout << "Membership ID: " << data.first << " | Name: " << pair.GetName() << 
@@ -75,8 +75,8 @@ void remove(const std::string &key) {
 	    getline(checkFile, line); //throw away first header
 	    while(std::getline(checkFile, line)) {
      		 if (line.find(newPerson.GetMemberShipId()) != std::string::npos) {
-		    isDuplicate = true;
-		    break;
+		   isDuplicate = true;
+		   break; 
 	        }
 	    }
 		checkFile.close();
@@ -85,10 +85,10 @@ void remove(const std::string &key) {
 	if (file.is_open()) {
 		file << newPerson.GetMemberShipId() << " | " << newPerson.GetName() <<
 		" | " << newPerson.GetAge() << " | " << newPerson.GetPhoneNumber() << " " << std::endl;
-	    }
+	}
+
 	else std::cout << "Error Opening File" << std::endl;
 	}
-	else std::cout << "Person already exists in file" << std::endl;
     }
   
     void load_file(const std::string &filename) {
