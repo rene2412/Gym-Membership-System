@@ -1,0 +1,58 @@
+What do you want to today?
+1) Add a person
+2) Remove a person
+3) Search for a Person
+4) Edit Information
+5) Show All In Database
+6) Quit
+Enter an ID: 
+Enter a Name: 
+Enter an Age: 
+Enter a Phone-Number
+Lionel Messi has been successfully added
+What do you want to today?
+1) Add a person
+2) Remove a person
+3) Search for a Person
+4) Edit Information
+5) Show All In Database
+6) Quit
+Enter an ID: 
+Enter a Name: 
+Enter an Age: 
+Enter a Phone-Number
+Tom Brady has been successfully added
+What do you want to today?
+1) Add a person
+2) Remove a person
+3) Search for a Person
+4) Edit Information
+5) Show All In Database
+6) Quit
+Enter an ID to search for a person
+Person Found!
+What do you want to today?
+1) Add a person
+2) Remove a person
+3) Search for a Person
+4) Edit Information
+5) Show All In Database
+6) Quit
+Enter an ID to search for a person
+Person Found!
+What do you want to today?
+1) Add a person
+2) Remove a person
+3) Search for a Person
+4) Edit Information
+5) Show All In Database
+6) Quit
+Enter an ID: 
+Error: ID is already in use. Pick another
+What do you want to today?
+1) Add a person
+2) Remove a person
+3) Search for a Person
+4) Edit Information
+5) Show All In Database
+6) Quit

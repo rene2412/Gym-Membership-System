@@ -1,0 +1,58 @@
+What do you want to today?
+1) Add a person
+2) Remove a person
+3) Search for a Person
+4) Edit Information
+5) Show All In Database
+6) Quit
+Enter an ID: 
+Enter a Name: 
+Enter an Age: 
+Enter a Phone-Number
+Bruce Wayne has been successfully added
+What do you want to today?
+1) Add a person
+2) Remove a person
+3) Search for a Person
+4) Edit Information
+5) Show All In Database
+6) Quit
+Enter an ID to search for a person
+Person Found!
+What do you want to today?
+1) Add a person
+2) Remove a person
+3) Search for a Person
+4) Edit Information
+5) Show All In Database
+6) Quit
+Enter an ID: 
+Enter a Name: 
+Enter an Age: 
+Enter a Phone-Number
+Clark Kent has been successfully added
+What do you want to today?
+1) Add a person
+2) Remove a person
+3) Search for a Person
+4) Edit Information
+5) Show All In Database
+6) Quit
+Enter an ID to remove a person
+Person erased
+What do you want to today?
+1) Add a person
+2) Remove a person
+3) Search for a Person
+4) Edit Information
+5) Show All In Database
+6) Quit
+Enter an ID to search for a person
+Error: Person Not Found
+What do you want to today?
+1) Add a person
+2) Remove a person
+3) Search for a Person
+4) Edit Information
+5) Show All In Database
+6) Quit

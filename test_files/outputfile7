@@ -1,0 +1,21 @@
+What do you want to today?
+1) Add a person
+2) Remove a person
+3) Search for a Person
+4) Edit Information
+5) Show All In Database
+6) Quit
+Enter an ID: 
+Enter a Name: 
+Enter an Age: 
+Enter a Phone-Number
+Error: Invalid phone number format. Please use the format XXX-XXX-XXXX.
+Enter a Phone-Number
+Joe Thomas has been successfully added
+What do you want to today?
+1) Add a person
+2) Remove a person
+3) Search for a Person
+4) Edit Information
+5) Show All In Database
+6) Quit

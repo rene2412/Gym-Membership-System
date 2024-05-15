@@ -4,6 +4,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include <algorithm>
 class Person {
 private:
@@ -28,39 +29,52 @@ public:
  
 class System : public Person {
 private: 
-     std::vector<std::pair<std::string, Person>> database; // will hold the entire gym database
+     std::unordered_map<std::string, Person> database; // will hold the entire gym database
 public:
-  const std::vector<std::pair<std::string, Person>> &GetDatabase()  const { return database; }
+   std::unordered_map<std::string, Person> &GetDatabase()  { return database; }
 
      void PrintDataBase()  {
-	    for (const auto& data : GetDatabase()) {
-		 const auto &pair = data.second; 
-	     std::cout << "Membership ID: " << data.first << " | Name: " << pair.GetName() << 
+	    for (const auto& data : database) {
+		 const auto &pair = data.second;
+		 std::cout << "Membership ID: " << data.first << " | Name: " << pair.GetName() << 
 	     " | Age: " << pair.GetAge() << " | Phone Number: " << pair.GetPhoneNumber() << std::endl;
 	     }
 	    if (database.empty()) {
 	    std::cout << "Database Empty\n";
 	   }
 	}
+	
      //key
      void AddPerson(const Person &person) {
-	   database.push_back({person.GetMemberShipId(), person});
+	   database.insert({person.GetMemberShipId(), person});
 	} 
-void remove(const std::string &key) {
-    auto iter = std::find_if(database.begin(), database.end(),
-          [key](const auto &entry) { return entry.first == key; });
-
-	if (iter != database.end()) {
-	  database.erase(iter); 
-	   std::cout << "Person erased" << std::endl;
+bool remove(const std::string &key) {
+	bool found = search(key);
+	char choice;
+        if (!found) {
+	 std::cout << "Person not found!" << std::endl; 
+       	 return false;
 	}
-	else std::cout << "Person not found!" << std::endl; 
-    } 
-
+	else { 
+	       auto iter = database.find(key);
+	       if (iter != database.end()) {
+		std:: cout << "Are you sure you want to delete " << iter->second.GetName() << " from the gym database? Type: Y(Yes)/N(No)\n";  
+		std::cin >> choice;
+                 if (choice == 'y' or choice == 'Y') {
+			 std::cout << iter->second.GetName() << " has been removed" << std::endl;
+			 database.erase(iter);
+			 return true;
+		 }
+		 else if (choice == 'n' or choice == 'N') return false;
+	       }
+	   }  
+	return false;
+}
     bool search(const std::string &key) {
-	for (const auto &pair : GetDatabase()) {
-	     if (pair.first == key) {
-		std::cout << "Person Found!" << std::endl;
+	for (const auto &pair : database) {
+	     if (key == pair.first) {
+		std::cout << "ID: " << pair.first << "| Name: " << pair.second.GetName() << 
+	     " | Age: " << pair.second.GetAge() << " | Phone Number: " << pair.second.GetPhoneNumber() << std::endl;	
 		return true;
 	     }
 	}	
@@ -101,6 +115,7 @@ void remove(const std::string &key) {
 		    std::string id, name, age, phone_number;
 		    int new_age = 0;
 		    std::getline(srs, id, '|'); 
+		    id.erase(id.find_last_not_of(" \t\r\n") + 1);
 		    std::getline(srs, name, '|'); 
 		    std::getline(srs, age, '|');
 		    std::getline(srs, phone_number, '\n'); 
@@ -110,7 +125,7 @@ void remove(const std::string &key) {
   		  	continue; 
 				}
 		    Person newPerson(id, name, new_age, phone_number);
-		    database.push_back({id, newPerson});
+		    database.insert({id, newPerson});
 		     }
 	        }
 	        else std::cout << "Error opening" << std::endl;
